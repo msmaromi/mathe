@@ -6,10 +6,16 @@
 
 package mathe;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sun.reflect.generics.tree.Tree;
 
 /**
@@ -40,6 +46,9 @@ public class PDA {
     public HashMap<String, String> righthand;
     
     public Rule(String currentState, String input, String topStack, String nextState, String resultStack) {
+      lefthand = new HashMap<>();
+      righthand = new HashMap<>();
+      
       lefthand.put(CURRENT_STATE, currentState);
       lefthand.put(INPUT, input);
       lefthand.put(TOP_STACK, topStack);
@@ -55,10 +64,27 @@ public class PDA {
   }
   
   public Vector<Rule> extractRules(String filename) {
-    return null;
+    Vector<Rule> rules = new Vector<>();
+    BufferedReader br;
+    try {
+      br = new BufferedReader(new FileReader(filename));
+      String str = br.readLine();
+      while(str != null) {        
+        String delims = "[,: ]";
+        String tokens[] = str.split(delims);                
+        str = br.readLine();
+        Rule r = new Rule(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4]);        
+        rules.add(r);
+      }     
+    } catch (FileNotFoundException ex) {
+      Logger.getLogger(FA.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(FA.class.getName()).log(Level.SEVERE, null, ex);
+    }   
+    return rules;
   }
   
-  public Integer analyzeExpression(char[] listChar) {
+  public Double analyzeExpression(char[] listChar) {
     String state = START_STATE;
     outerloop:
     for(int i = 0; i < listChar.length; i++) {

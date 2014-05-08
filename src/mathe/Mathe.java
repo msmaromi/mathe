@@ -19,10 +19,11 @@ public class Mathe {
    */
   public static void main(String[] args) {
     // TODO code application logic here
-    char[] listChar = FileManager.extractExpression("files/exp.txt");
-    for(char c: listChar) {
-      System.out.println(c);
-    }
+    char[] listChar = FileManager.extractExpression("files/exp.txt");    
+    
+    FA fa = new FA("files/fa.txt");
+    Double result = fa.analyzeExpression(listChar);
+    System.out.println(result);
   }
   
 }
