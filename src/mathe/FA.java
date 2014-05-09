@@ -32,6 +32,7 @@ public class FA {
   private final String DOT_SIGN = ".";
   
   private ArrayList<Character> listNumber;  // 1..9
+  private ArrayList<String> listType;
   
   private final String CURRENT_STATE = "current state";
   private final String INPUT = "input";  
@@ -57,52 +58,42 @@ public class FA {
   
   public FA(String filename) {
     listNumber = new ArrayList<>(Arrays.asList(new Character[] {'1', '2', '3', '4', '5', '6', '7', '8', '9'}));
+    listType = new ArrayList<>(Arrays.asList(new String[] {EMPTY, NEGATIVE_SIGN, ZERO, NUMBER, DOT_SIGN}));
     rules = extractRules(filename);
   }
   
   public Double analyzeExpression(char[] listChar) {
-    Double result = 0.0;
-    String state = START_STATE;    
     int i = 0;
-    outerloop:
-    while(i < listChar.length) {            
-      String typeInput = "e";      
-      boolean emptyInputValid = false;System.out.println(i+":"+state);    
-      for(int j = 0; j < rules.size(); j++) {
-        Rule rule = rules.get(j);    
-        if(rule.lefthand.get(CURRENT_STATE).equals(state) && rule.lefthand.get(INPUT).equals(typeInput)) {          
-          state = rule.righthand.get(NEXT_STATE);          
-          emptyInputValid = true;          
-        } 
-      }
-      
-      
-      if(!emptyInputValid) {
-        typeInput = examineExpression(listChar[i]);
-        System.out.println(typeInput);
-        if(typeInput == null) {          
-          return null;
-        }
-        else {
-          for(int j = 0; j < rules.size(); j++) {
-            Rule rule = rules.get(j);            
-            if(rule.lefthand.get(CURRENT_STATE).equals(state) && rule.lefthand.get(INPUT).equals(typeInput)) {
-              state = rule.righthand.get(NEXT_STATE);
-              break outerloop;
-            }          
+    int indexExp = 0; //index pada input expression
+    String currentState = START_STATE;    
+    while (indexExp < listChar.length) {  
+      boolean ruleFounded = false;      
+      ArrayList<String> failPath = new ArrayList<>();
+      while(i < listType.size() && !ruleFounded) {
+        String typeInput = listType.get(i);                      
+        
+        int j = 0;
+        while(j < rules.size() && !ruleFounded) {
+          Rule rule = rules.get(j);
+          if(rule.lefthand.get(INPUT).equals(typeInput) && rule.righthand.get(CURRENT_STATE).equals(currentState)) {
+            currentState = rule.righthand.get(NEXT_STATE);
+            ruleFounded = true;
           }
+          j++;
+        }
+        
+        if(typeInput.equals(examineExpression(listChar[indexExp])) && ruleFounded) {
+          indexExp++;          
         }
         i++;
       }
-      System.out.println(i);
-    }
-    
-    if(state == FINAL_STATE) {
-      result = Double.parseDouble(listChar.toString());
-      return result;
-    } else {
-      return null;
-    }
+      
+      if(!ruleFounded) {
+        
+      }
+    }    
+      
+    return null;
   }
   
   public String examineExpression(char c) {    

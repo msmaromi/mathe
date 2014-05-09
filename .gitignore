@@ -2,5 +2,4 @@
 *.mf
 build/
 dist/
-files/
 nbproject/

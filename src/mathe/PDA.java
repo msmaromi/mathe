@@ -27,6 +27,8 @@ public class PDA {
   public static final String OPERATOR = "operator";
   public static final String OPEN_BRACKET = "(";
   public static final String CLOSE_BRACKET = ")";
+  public static final String PUSH = "D";
+  public static final String PULL = "T";
     
   private ArrayList<Character> listOperator;
   private ArrayList<Character> listOperan;  
@@ -72,7 +74,7 @@ public class PDA {
       while(str != null) {        
         String delims = "[,: ]";
         String tokens[] = str.split(delims);                
-        str = br.readLine();
+        str = br.readLine();        
         Rule r = new Rule(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4]);        
         rules.add(r);
       }     
