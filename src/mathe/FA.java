@@ -62,38 +62,51 @@ public class FA {
     rules = extractRules(filename);
   }
   
-  public Double analyzeExpression(char[] listChar) {
-    int i = 0;
-    int indexExp = 0; //index pada input expression
-    String currentState = START_STATE;    
-    while (indexExp < listChar.length) {  
-      boolean ruleFounded = false;      
-      ArrayList<String> failPath = new ArrayList<>();
-      while(i < listType.size() && !ruleFounded) {
-        String typeInput = listType.get(i);                      
-        
-        int j = 0;
-        while(j < rules.size() && !ruleFounded) {
-          Rule rule = rules.get(j);
-          if(rule.lefthand.get(INPUT).equals(typeInput) && rule.righthand.get(CURRENT_STATE).equals(currentState)) {
-            currentState = rule.righthand.get(NEXT_STATE);
-            ruleFounded = true;
-          }
-          j++;
-        }
-        
-        if(typeInput.equals(examineExpression(listChar[indexExp])) && ruleFounded) {
-          indexExp++;          
-        }
-        i++;
-      }
+  public boolean analyzeExpression(String currentState, String input, char[] listChar) {
+//    Double result = 0.0;   
+//    
+//    int i = 0;
+//    while(i < listType.size()) {
+//      String typeInput = listType.get(i);
+//      
+//      i++;
+//    }
+//    
+//    if(currentState.equals(FINAL_STATE)) {
+//      if(listChar.length == 0) {        
+//        return true;
+//      }
+//    } else {
+//      char currentChar = listChar[0];
+//      char newListChar[] = new char[listChar.length - 1];
+//      for(int j = 1; j < listChar.length; j++) {
+//        newListChar[j-1] = listChar[j];
+//      }
+//      int i = 0;
+//      while(i < listType.size()) {
+//        String typeInput = listType.get(i);
+//        if(analyzeExpression(currentState, typeInput, newListChar)) {
+//          return true;
+//        }
+//        i++;
+//      }
+//      return false;
+//    }        
       
-      if(!ruleFounded) {
-        
-      }
-    }    
-      
-    return null;
+    StringBuilder sb =  new StringBuilder();
+    for(char c: listChar) {
+      sb.append(c);
+    }
+
+    Double result = null;
+    try {
+      System.out.println("format valid");
+      result = Double.parseDouble(sb.toString());
+    } catch (NumberFormatException e) {
+      System.out.println("format tidak valid");      
+    }
+
+//    return result;    
   }
   
   public String examineExpression(char c) {    
