@@ -62,7 +62,7 @@ public class FA {
     rules = extractRules(filename);
   }
   
-  public boolean analyzeExpression(String currentState, String input, char[] listChar) {
+  public Double analyzeExpression(char[] listChar) {
 //    Double result = 0.0;   
 //    
 //    int i = 0;
@@ -106,7 +106,7 @@ public class FA {
       System.out.println("format tidak valid");      
     }
 
-//    return result;    
+    return result;    
   }
   
   public String examineExpression(char c) {    
