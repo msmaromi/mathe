@@ -1,0 +1,9 @@
+Q,(,Z:Q,D
+Q,X,(:Q,T
+Q,),Z:Q,D
+Q,Y,):Q,T
+Q,E,):Q,T
+Q,X,Z:Q,D
+Q,Y,X:Q,T
+Q,E,X:Q,T
+Q,E,Z:Q,Z
